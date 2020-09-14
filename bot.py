@@ -489,7 +489,7 @@ async def setup_multi_applications(ctx , channel :discord.TextChannel = None):
   except:
     x["qchannel"] = channel.id
   x["q"] = {"default" : x["q"]}
-  col.update_one({"_id":ctx.guild.id} , x)
+  col.update_one({"_id":ctx.guild.id} , {"$set":x})
   await ctx.send("Multi Applications were set up!")
 
 
@@ -506,7 +506,7 @@ async def multiq(ctx , app = None)
       x["q"][app]
     except:
       return
-    e = discord.Embed(title = f"{App}\' Questions")
+    e = discord.Embed(title = f"{app}\' Questions")
     for question in x["q"][app]:
       e.add_field(name = "Question" , value = question)
   await ctx.send(embed = e)
@@ -519,9 +519,10 @@ async def multi_addq(ctx , app , q):
   try:
     x["q"]
     x["q"][app]
+    x["q"][app].append(q)
   except:
     return
-  col.update_one({"_id":ctx.guild.id},{"$push":{"q":{app : q}}})
+  col.update_one({"_id":ctx.guild.id},{"$set":x})
   await ctx.send(f"Question was added to {app}!")
 
 
