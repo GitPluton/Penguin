@@ -496,6 +496,36 @@ async def setup_multi_applications(ctx , channel :discord.TextChannel = None):
 
 @bot.command()
 async def multiq(ctx , app = None)
+  x = await db(ctx)
+  if app is None:
+    e = discord.Embed(title = "Apps")
+    for key in x["q"]:
+      e.add_field(name = "App" , value = key)
+  else:
+    try:
+      x["q"][app]
+    except:
+      return
+    e = discord.Embed(title = f"{App}\' Questions")
+    for question in x["q"][app]:
+      e.add_field(name = "Question" , value = question)
+  await ctx.send(embed = e)
+
+
+
+@bot.command()
+async def multi_addq(ctx , app , q):
+  x = await db(ctx)
+  try:
+    x["q"]
+    x["q"][app]
+  except:
+    return
+  col.update_one({"_id":ctx.guild.id},{"$push":{"q":{app : q}}})
+  await ctx.send(f"Question was added to {app}!")
+
+
+
 
 
 
