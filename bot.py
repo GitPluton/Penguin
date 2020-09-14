@@ -5,7 +5,7 @@ import os
 from pymongo import MongoClient
 
 #passw = os.environ["passw"]
-passw = "mongodb+srv://Admin:jMyBvg90GQIMszKh@cluster0.laojx.mongodb.net/db?retryWrites=true&w=majority"
+passw 
 cluster = MongoClient(passw)
 db = cluster.db
 col = db.collection
