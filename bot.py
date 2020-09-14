@@ -480,5 +480,24 @@ async def s(ctx,*,msg):
 
 
 
+@bot.command()
+@commands.has_permissions(administrator = True)
+async def setup_multi_applications(ctx , channel :discord.TextChannel = None):
+  x = await db(ctx)
+  try:
+    x["qchannel"]
+  except:
+    x["qchannel"] = channel.id
+  x["q"] = {"default" : x["q"]}
+  col.update_one({"_id":ctx.guild.id} , x)
+  await ctx.send("Multi Applications were set up!")
+
+
+
+@bot.command()
+async def multiq(ctx , app = None)
+
+
+
 bot.run("")
 #bot.run(os.environ["token"])
