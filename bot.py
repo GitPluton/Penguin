@@ -101,7 +101,7 @@ async def set_applications_channel(ctx , channel : discord.TextChannel):
 
 
 @bot.command(name = "apply")
-async def _apply(ctx):
+async def _apply(ctx , app = None):
   x = await db(ctx)
   try:
     x["q"]
@@ -109,11 +109,25 @@ async def _apply(ctx):
       return
   except:
     return
+  if isinstance(x["q"] , dict) and app is None:
+    await ctx.send("Sorry please specify an app!")
+    return
+  elif isinstance(x["q"] , array):
+    appkey = x["q"]
+  elif isinstance(x["q"] , dict):
+    try:
+      x["q"][app]
+      appkey = x["q"][app]
+    except:
+      await ctx.send("App is wrong make sure u typed correct app!")
+      return
+    
+    
   n = 0
   answer = discord.Embed(title = f"{ctx.author}\'s Application", color = discord.Color.blue())
   def check(m):
     return m.author == ctx.author and m.guild is None
-  for question in x["q"]:
+  for question in appkey:
     n += 1
     q = discord.Embed(color = discord.Color.blue())
     q.add_field(name=f"Question {n}",value = question)
