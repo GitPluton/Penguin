@@ -546,7 +546,29 @@ async def multi_addq(ctx , app , q):
 
 
 
-
+@bot.command()
+async def hangup(ctx):
+    y = col.find_one({"_id":0})
+    if ctx.channel.id in y["queue"]:
+        x = y["queue"].index(ctx.channel.id)
+        if x == 0 or x % 2 == 0:
+            
+            y["queue"].pop(x)
+            try:
+                y["queue"].pop(x)
+                channel = bot.get_channel(y["queue"][x])
+            except:
+                pass
+        else:
+            channel = bot.get_channel(y["queue"][x - 1])
+            y["queue"].pop(x)
+            y["queue"].pop(x - 1)
+        col.update_one({"_id":0},{"$set" : y})
+        await ctx.send("Disconnected!")
+        await channel.send("Disconnected!")
+                                      
+    else:
+        await ctx.send("Error : Call channel was not found")
 
 
 
