@@ -5,8 +5,6 @@ import os
 from pymongo import MongoClient
 
 #passw = os.environ["passw"]
-passw = "mongodb+srv://Admin:vHyQJeiqd0zZkFU1@cluster0.laojx.mongodb.net/db?retryWrites=true&w=majority"
-cluster = MongoClient(passw)
 db = cluster.db
 col = db.collection
 
@@ -578,5 +576,5 @@ async def hangup(ctx):
 
 
 
-bot.run("NzUxMDkzMzE2MDk0Nzg3NzU0.X1EEKQ.b7eRV-G_GLvnxBBFRFfKWgZNtWs")
+bot.run("")
 #bot.run(os.environ["token"])
